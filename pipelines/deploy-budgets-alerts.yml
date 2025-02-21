@@ -50,7 +50,7 @@ variables:
     ${{ if eq(variables['Build.Reason'],'PullRequest') }}:
       value: preprod_noapproval
     ${{ if ne(variables['Build.Reason'],'PullRequest') }}:
-      value: preprod_approval
+      value: preprod_noapproval
   - name: prodyamlenv
     ${{ if eq(variables['Build.Reason'],'PullRequest') }}:
       value: prod_noapproval
@@ -58,7 +58,7 @@ variables:
       value: prod_approval
 
 stages:
-  # Deploy Dev Hub
+  # Deploy Dev Budgets
   - template: azdo/template-terraform-deploy-stage.yml@templates
     parameters:
       githubPat: $(GITHUB_PAT)
@@ -79,7 +79,7 @@ stages:
       yamlenv: $(devyamlenv)
       terraformVersion: "1.9.8"
 
-  # Deploy Prep Hub
+  # Deploy Preprod Budgets
   - template: azdo/template-terraform-deploy-stage.yml@templates
     parameters:
       githubPat: $(GITHUB_PAT)
@@ -95,13 +95,13 @@ stages:
       backendAzureRmResourceGroupName: rg-prep-tfstate-001
       backendAzureRmStorageAccountName: samojtfstate002
       backendAzureRmContainerName: tfstate
-      backendAzureRmKey: "budgetsdev.terraform.tfstate"
+      backendAzureRmKey: "budgetspreprod.terraform.tfstate"
       workingDirectory: "$(System.DefaultWorkingDirectory)/staff-infrastructure-alz-terraform-budgets/environments/pre-prod/"
       yamlenv: $(preprodyamlenv)
       dependsOn: ["Dev"]
       terraformVersion: "1.9.8"
 
-  # Deploy Prod Hub
+  # Deploy Prod Budgets
   - template: azdo/template-terraform-deploy-stage.yml@templates
     parameters:
       githubPat: $(GITHUB_PAT)

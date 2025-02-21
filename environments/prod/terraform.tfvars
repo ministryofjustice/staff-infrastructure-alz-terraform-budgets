@@ -1,11 +1,11 @@
 budgets = {
   "budget-alz-hub-003" = {
-    subscription_id = "c5551d23-f465-4e90-9f4d-ef19eecff6a0"
+    subscription_id = "d065122c-0c8c-4024-b018-8bc853119e12"
     amount          = 1650
     resource_groups = []
   },
   "budget-alz-sserv-003" = {
-    subscription_id = "0101c59d-45af-4adc-85cb-41ff25989974"
+    subscription_id = "295f66cf-5554-4bfe-b3f7-3db13f27e4ca"
     amount          = 1500
     resource_groups = []
   },
