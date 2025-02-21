@@ -1,0 +1,124 @@
+parameters:
+  - name: TerraformOperation
+    displayName: Terraform Operation
+    values:
+      - plan
+      - apply
+    default: plan
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - source
+      - environments/dev/
+      - environments/pre-prod/
+      - environments/prod/
+      - modules/budgets/
+      - pipelines/deploy-budgets-alerts.yml
+    exclude:
+
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - source
+      - environments/dev/
+      - environments/pre-prod/
+      - environments/prod/
+      - modules/budgets/
+      - pipelines/deploy-budgets-alerts.yml
+    exclude:
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: ministryofjustice/staff-infrastructure-alz-ci-templates
+      ref: refs/heads/main
+      endpoint: staff-infrastructure-alz-ci-templates
+
+variables:
+  - group: "github"
+  - name: devyamlenv
+    value: dev_noapproval
+  - name: preprodyamlenv
+    ${{ if eq(variables['Build.Reason'],'PullRequest') }}:
+      value: preprod_noapproval
+    ${{ if ne(variables['Build.Reason'],'PullRequest') }}:
+      value: preprod_approval
+  - name: prodyamlenv
+    ${{ if eq(variables['Build.Reason'],'PullRequest') }}:
+      value: prod_noapproval
+    ${{ if ne(variables['Build.Reason'],'PullRequest') }}:
+      value: prod_approval
+
+stages:
+  # Deploy Dev Hub
+  - template: azdo/template-terraform-deploy-stage.yml@templates
+    parameters:
+      githubPat: $(GITHUB_PAT)
+      terraformOperation: ${{ parameters.terraformOperation }}
+      deployFlag: true
+      stageName: "Dev"
+      spokeName: hub
+      environmentName: dev
+      tenant_id: 0bb413d7-160d-4839-868a-f3d46537f6af
+      subscription_id: c5551d23-f465-4e90-9f4d-ef19eecff6a0
+      stageDisplayName: "Dev"
+      backendServiceArm: scVLZ
+      backendAzureRmResourceGroupName: rg-terraform-statefiles-001
+      backendAzureRmStorageAccountName: samojtfstate001
+      backendAzureRmContainerName: tfstate
+      backendAzureRmKey: "budgetsdev.terraform.tfstate"
+      workingDirectory: "$(System.DefaultWorkingDirectory)/staff-infrastructure-alz-terraform-budgets/environments/dev/"
+      yamlenv: $(devyamlenv)
+      terraformVersion: "1.9.8"
+
+  # Deploy Prep Hub
+  - template: azdo/template-terraform-deploy-stage.yml@templates
+    parameters:
+      githubPat: $(GITHUB_PAT)
+      terraformOperation: ${{ parameters.terraformOperation }}
+      deployFlag: true
+      stageName: "PreProd"
+      spokeName: hub
+      environmentName: pre-prod
+      tenant_id: 34c125c9-c7f3-486f-a78c-cf762c718831
+      subscription_id: d754a93f-81db-4cd3-92eb-a9fa44108063
+      stageDisplayName: "PreProd"
+      backendServiceArm: scPrepVLZ
+      backendAzureRmResourceGroupName: rg-prep-tfstate-001
+      backendAzureRmStorageAccountName: samojtfstate002
+      backendAzureRmContainerName: tfstate
+      backendAzureRmKey: "budgetsdev.terraform.tfstate"
+      workingDirectory: "$(System.DefaultWorkingDirectory)/staff-infrastructure-alz-terraform-budgets/environments/pre-prod/"
+      yamlenv: $(preprodyamlenv)
+      dependsOn: ["Dev"]
+      terraformVersion: "1.9.8"
+
+  # Deploy Prod Hub
+  - template: azdo/template-terraform-deploy-stage.yml@templates
+    parameters:
+      githubPat: $(GITHUB_PAT)
+      terraformOperation: ${{ parameters.terraformOperation }}
+      deployFlag: true
+      stageName: "Prod"
+      spokeName: hub
+      environmentName: prod
+      tenant_id: c6874728-71e6-41fe-a9e1-2e8c36776ad8
+      subscription_id: d065122c-0c8c-4024-b018-8bc853119e12
+      stageDisplayName: "Prod"
+      backendServiceArm: scProdVLZ
+      backendAzureRmResourceGroupName: rg-prod-tfstate-001
+      backendAzureRmStorageAccountName: samojtfstate003
+      backendAzureRmContainerName: tfstate
+      backendAzureRmKey: budgetsprod.terraform.tfstate
+      workingDirectory: "$(System.DefaultWorkingDirectory)/staff-infrastructure-alz-terraform-budgets/environments/prod/"
+      yamlenv: $(prodyamlenv)
+      dependsOn: ["PreProd"]
+      terraformVersion: "1.9.8"
