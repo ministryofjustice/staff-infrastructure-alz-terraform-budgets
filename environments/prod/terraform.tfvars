@@ -20,7 +20,7 @@ budgets = {
     ]
   },
   "budget-alz-smss-dogs-003" = {
-    subscription_id = "becc4bf3-5028-43e4-8008-06e9362d6b86"
+    subscription_id = "/subscriptions/becc4bf3-5028-43e4-8008-06e9362d6b86"
     amount          = 800
     resource_groups = [
       "rg-smss-dogs-001",
@@ -30,7 +30,7 @@ budgets = {
     ]
   },
   "budget-alz-smss-ibase-003" = {
-    subscription_id = "becc4bf3-5028-43e4-8008-06e9362d6b86"
+    subscription_id = "/subscriptions/becc4bf3-5028-43e4-8008-06e9362d6b86"
     amount          = 350
     resource_groups = [
       "rg-smss-ibase-alerts-001",
