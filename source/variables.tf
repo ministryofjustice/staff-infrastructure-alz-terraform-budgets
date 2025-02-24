@@ -13,21 +13,19 @@ variable "budgets" {
     amount          = number
     resource_groups = list(string)
   }))
-  default = {}
+  default     = {}
   description = "Map of budget definitions for the Dev environment."
 }
 
 # 2) Start and end dates for the budgets
 variable "start_date" {
-  type        = string
-  default     = "2025-04-01"
-  description = "Start date (YYYY-MM-DD) for the budgets in Dev."
+  type    = string
+  default = "2025-04-01T00:00:00Z"
 }
 
 variable "end_date" {
-  type        = string
-  default     = "2026-03-31"
-  description = "End date (YYYY-MM-DD) for the budgets in Dev."
+  type    = string
+  default = "2026-03-31T00:00:00Z"
 }
 
 # 3) Thresholds for Actual vs. Forecast usage alerts
@@ -50,5 +48,27 @@ variable "contact_emails" {
   description = "List of email addresses that receive Dev budget alerts."
 }
 
+variable "subscription_id" {
+  description = "This is actually the hub subscription id"
+}
 
+variable "tenant_id" {
+  description = "Tenant id"
+}
 
+variable "action_group_name" {
+  type        = string
+  description = "The existing Action Group name to attach budget notifications to."
+}
+
+variable "action_group_rg" {
+  type        = string
+  description = "The Resource Group in which the existing Action Group is located."
+}
+
+# If the Action Group is in a different subscription than default provider, you might also define:
+# variable "action_group_subscription_id" {
+#   type        = string
+#   description = "The subscription ID for the RG containing the action group."
+#   default     = null
+# }

@@ -10,4 +10,5 @@ module "cost_budgets" {
   threshold_actual   = var.threshold_actual
   threshold_forecast = var.threshold_forecast
   contact_emails     = var.contact_emails
+  contact_groups     = [ data.azurerm_monitor_action_group.existing_ag.id]
 }
