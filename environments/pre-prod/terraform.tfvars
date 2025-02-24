@@ -17,7 +17,7 @@ threshold_actual   = 75.0
 threshold_forecast = 85.0
 contact_emails     = ["ALZ4LS@justice.gov.uk"]
 
-action_group_name = "ag-alz-4ls"
+action_group_name = "ag-advisor-digest-hub"
 action_group_rg   = "rg-hub-core-001"
 
 tenant_id       = "34c125c9-c7f3-486f-a78c-cf762c718831"
