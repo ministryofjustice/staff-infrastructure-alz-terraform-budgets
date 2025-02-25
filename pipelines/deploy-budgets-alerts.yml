@@ -12,11 +12,11 @@ trigger:
       - main
   paths:
     include:
-      - source
-      - environments/dev/
-      - environments/pre-prod/
-      - environments/prod/
-      - modules/budgets/
+      - terraform/source
+      - terraform/environments/dev/
+      - terraform/environments/pre-prod/
+      - terraform/environments/prod/
+      - terraform/modules/budgets/
       - pipelines/deploy-budgets-alerts.yml
 
 pr:
@@ -25,11 +25,11 @@ pr:
       - main
   paths:
     include:
-      - source
-      - environments/dev/
-      - environments/pre-prod/
-      - environments/prod/
-      - modules/budgets/
+      - terraform/source
+      - terraform/environments/dev/
+      - terraform/environments/pre-prod/
+      - terraform/environments/prod/
+      - terraform/modules/budgets/
       - pipelines/deploy-budgets-alerts.yml
 
 resources:
@@ -73,7 +73,7 @@ stages:
       backendAzureRmStorageAccountName: samojtfstate001
       backendAzureRmContainerName: tfstate
       backendAzureRmKey: "budgetsdev.terraform.tfstate"
-      workingDirectory: "$(System.DefaultWorkingDirectory)/staff-infrastructure-alz-terraform-budgets/environments/dev/"
+      workingDirectory: "$(System.DefaultWorkingDirectory)/staff-infrastructure-alz-terraform-budgets/terraform/environments/dev/"
       yamlenv: $(devyamlenv)
       terraformVersion: "1.9.8"
 
@@ -94,7 +94,7 @@ stages:
       backendAzureRmStorageAccountName: samojtfstate002
       backendAzureRmContainerName: tfstate
       backendAzureRmKey: "budgetspreprod.terraform.tfstate"
-      workingDirectory: "$(System.DefaultWorkingDirectory)/staff-infrastructure-alz-terraform-budgets/environments/pre-prod/"
+      workingDirectory: "$(System.DefaultWorkingDirectory)/staff-infrastructure-alz-terraform-budgets/terraform/environments/pre-prod/"
       yamlenv: $(preprodyamlenv)
       dependsOn: ["Dev"]
       terraformVersion: "1.9.8"
@@ -116,7 +116,7 @@ stages:
       backendAzureRmStorageAccountName: samojtfstate003
       backendAzureRmContainerName: tfstate
       backendAzureRmKey: budgetsprod.terraform.tfstate
-      workingDirectory: "$(System.DefaultWorkingDirectory)/staff-infrastructure-alz-terraform-budgets/environments/prod/"
+      workingDirectory: "$(System.DefaultWorkingDirectory)/staff-infrastructure-alz-terraform-budgets/terraform/environments/prod/"
       yamlenv: $(prodyamlenv)
       dependsOn: ["PreProd"]
       terraformVersion: "1.9.8"
