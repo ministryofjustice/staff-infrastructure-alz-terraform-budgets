@@ -17,7 +17,6 @@ can send alerts to Microsoft Teams via webhooks).
 - **Notifications:** Supports both email alerts and notifications through an Action Group.
 - **Action Group Integration:** Uses a data block to look up an existing Action Group for sending alerts.
 
-
 ### Repository Structure
 
 - **modules/budgets:** Contains the Terraform module for creating budgets.
@@ -28,6 +27,6 @@ can send alerts to Microsoft Teams via webhooks).
 ### Prerequisites
 
 - **Terraform:** Version `1.9.8` (or compatible) as defined in `version.tf`.
-- **AzureRM Provider:** Version `4.18.0` (or later) is required.                                                                                                               vcgggggfgffttgtfthhhhtfffr33333334hhgg
+- **AzureRM Provider:** Version `4.18.0` (or later) is required. vcgggggfgffttgtfthhhhtfffr33333334hhgg
 - A service principal with sufficient permissions (Contributor or Owner) on all target subscriptions.
 - An existing Azure Monitor Action Group to route notifications via that channel.

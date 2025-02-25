@@ -20,7 +20,7 @@ EOT
 
 variable "time_grain" {
   type        = string
-  default     = "Monthly"  # can be Monthly, Quarterly, or Annually
+  default     = "Monthly" # can be Monthly, Quarterly, or Annually
   description = "Period over which the budget recurs (Monthly, Quarterly, Annually)."
 }
 
