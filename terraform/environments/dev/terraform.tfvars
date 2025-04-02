@@ -18,6 +18,14 @@ budgets = {
       "azurebackuprg_uksouth_1",
       "networkwatcherrg"
     ]
+  },
+  "budget-alz-smss-dogs-001" = {
+    subscription_id = "/subscriptions/1694d62a-08ca-48d5-93b6-0feb07d8bce3"
+    amount          = 150
+    resource_groups = [
+      "rg-smss-dogs-001",
+      "rg-smss-dogs-alerts-001"
+    ]
   }
 }
 
